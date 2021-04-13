@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="52a6804c-b1b5-4777-9dfe-2d69a7dc712f" name="Default Changelist" comment="" />
+    <list default="true" id="52a6804c-b1b5-4777-9dfe-2d69a7dc712f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5389376d17d6873d58a09e31b94b151245469fe8" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/3/5389376d17d6873d58a09e31b94b151245469fe8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +54,8 @@
       <option name="presentableId" value="Default" />
       <updated>1618213181926</updated>
       <workItem from="1618213183679" duration="5696000" />
-      <workItem from="1618263261507" duration="697000" />
+      <workItem from="1618263261507" duration="890000" />
+      <workItem from="1618267163031" duration="40000" />
     </task>
     <servers />
   </component>

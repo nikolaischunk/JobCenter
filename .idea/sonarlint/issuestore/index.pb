@@ -21,3 +21,6 @@ T
 $src/main/java/ch/chillihero/Job.java,5\1\51ee28914291b1431aa863af1832963b91371a38
 Z
 *src/main/java/ch/chillihero/JobCenter.java,5\3\5389376d17d6873d58a09e31b94b151245469fe8
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
