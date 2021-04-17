@@ -1,23 +1,25 @@
 package ch.chillihero;
 
 abstract public class Job {
-    int id;
-    String title;
-    String description;
-    int duration;
-    String location;
-    int status = 0;
-    int salaryPerHour;
-    Person creator;
-    Person worker;
+
+    //no interface, spoke with teacher about that, he agreed!
+    private String id;
+    private String title;
+    private String description;
+    private int duration; //in hours
+    private String location;
+    private int status = 0;
+    private int salaryPerHour;
+    private Person creator = null;
+    private Person worker = null;
 
 
     //GETTER & SETTER
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
