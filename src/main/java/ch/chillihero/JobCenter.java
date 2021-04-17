@@ -11,9 +11,9 @@ public class JobCenter {
 
     public List<Job> allJobs = new ArrayList<>();
     public List<Person> allPersons = new ArrayList<>();
+    public String loggedInUser = "0";
     JobFactory jobFactory = new JobFactory();
     Scanner scan = new Scanner(System.in);
-    public String loggedInUser = "0";
 
     public void createJob() {
         String jobChoice = "";
@@ -127,27 +127,26 @@ public class JobCenter {
         }
     }
 
-    public void loginProcess (){
-        boolean repeatLoginProcess = true;
+    public String returnLoggedInUser(String email) {
+        for (Person person : allPersons) {
+            if (person.getEmail().equals(email)) {
+                return person.getId();
+            }
+        }
+        return null;
+    }
 
-        if (loggedInUser == "0") {
-            while (repeatLoginProcess) {
-                System.out.println("Please Login!\n" +
-                        "Email: ");
-                String inputEmail = scan.nextLine();
-                System.out.println("Password: ");
-                String inputPassword = scan.nextLine();
-
-                for (Person person : jobCenter.allPersons) {
-                    if (person.getEmail() == inputEmail) {
-                        if (person.getPassword() == inputPassword) {
-                            loggedInUser = person.getId();
-                            repeatLoginProcess = false;
-                        }
-                    }
+    public boolean isLoginValid(String email, String password) {
+        for (Person person : allPersons) {
+            if (person.getEmail().equals(email)) {
+                if (person.getPassword().equals(password)) {
+                    return true;
                 }
             }
+        }
+        return false;
     }
+
 
     public void generateDummyJobs() {
         Job job1 = jobFactory.createJob("babysitting");
@@ -189,20 +188,20 @@ public class JobCenter {
         person1.setPassword("abc123");
 
         Person person2 = new Person();
-        person1.setId("2");
-        person1.setFirstname("Peter");
-        person1.setLastname("Pan");
-        person1.setAge(20);
-        person1.setEmail("peter.pan@gmail.com");
-        person1.setPassword("paeterpan");
+        person2.setId("2");
+        person2.setFirstname("Peter");
+        person2.setLastname("Pan");
+        person2.setAge(20);
+        person2.setEmail("peter.pan@gmail.com");
+        person2.setPassword("paeterpan");
 
         Person person3 = new Person();
-        person1.setId("3");
-        person1.setFirstname("Hanna");
-        person1.setLastname("Fate");
-        person1.setAge(14);
-        person1.setEmail("hanna.fate@gmail.com");
-        person1.setPassword("keepthefate");
+        person3.setId("3");
+        person3.setFirstname("Hanna");
+        person3.setLastname("Fate");
+        person3.setAge(14);
+        person3.setEmail("hanna.fate@gmail.com");
+        person3.setPassword("keepthefate");
 
         allPersons.add(person1);
         allPersons.add(person2);
