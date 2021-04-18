@@ -1,19 +1,21 @@
 package ch.chillihero;
 
 import ch.chillihero.util.AutoIncrement;
+import ch.chillihero.util.convertPerson;
 import ch.chillihero.util.convertStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
 
 public class JobCenter {
 
     public List<Job> allJobs = new ArrayList<>();
     public List<Person> allPersons = new ArrayList<>();
-    public String loggedInUser = "0";
     JobFactory jobFactory = new JobFactory();
     Scanner scan = new Scanner(System.in);
+    private Person loggedInUser = null;
 
     public void createJob() {
         String jobChoice = "";
@@ -67,16 +69,33 @@ public class JobCenter {
         job.setDuration(duration);
         job.setLocation(location);
         job.setSalary(salaryPerHour);
-
+        job.setCreator(loggedInUser);
         allJobs.add(job);
+        System.out.println("Created new Job with the ID: " + job.getId() + "\n");
     }
 
     public void acceptJob() {
+        System.out.println("====== Accept Job ======");
+        System.out.println("Whats the ID of the Job you want to accept?");
+        String jobID = scan.nextLine();
 
+        Job choosenJob = returnJobFromId(jobID);
+        if (!isJobTaken(jobID)) {
+            choosenJob.setWorker(loggedInUser);
+            choosenJob.setStatus(1);
+        } else {
+            System.out.println("Job is already taken");
+        }
     }
 
     public void finshJob() {
+        System.out.println("====== Finish Job ======");
+        System.out.println("Whats the ID of the Job you want to finish?");
+        String jobID = scan.nextLine();
 
+        Job choosenJob = returnJobFromId(jobID);
+        choosenJob.setWorker(loggedInUser);
+        choosenJob.setStatus(2);
     }
 
     public void listALlJobs() {
@@ -88,11 +107,31 @@ public class JobCenter {
                         "Location: " + job.getLocation() + "\n" +
                         "Duration: " + job.getDuration() + "\n" +
                         "Salary per Hour: " + job.getSalary() + "\n" +
-                        "Status: " + convertStatus.convert(job.getStatus()) + "\n");
+                        "Status: " + convertStatus.convert(job.getStatus()) + "\n" +
+                        "Creator: " + convertPerson.convert(job.getCreator()) + "\n" +
+                        "Worker: " + convertPerson.convert(job.getWorker()) + "\n");
             }
         } else {
-            System.out.println("No Jobs Found\n");
+            System.out.println("No Jobs Found");
         }
+    }
+
+    public boolean isJobTaken(String jobID) {
+        Job choosenJob = returnJobFromId(jobID);
+        return choosenJob.getWorker() != null;
+    }
+
+    public Job returnJobFromId(String Id) {
+        if (!allJobs.isEmpty()) {
+            for (Job job : allJobs) {
+                if (job.getId().equals(Id)) {
+                    return job;
+                }
+            }
+        } else {
+            System.out.println("No Jobs Found");
+        }
+        return null;
     }
 
     public void listAvaibleJobs() {
@@ -117,23 +156,54 @@ public class JobCenter {
                             "Location: " + job.getLocation() + "\n" +
                             "Duration: " + job.getDuration() + "\n" +
                             "Salary per Hour: " + job.getSalary() + "\n" +
-                            "Status: " + convertStatus.convert(job.getStatus()) + "\n");
-                } else {
-                    System.out.println("No Jobs Found\n");
+                            "Status: " + convertStatus.convert(job.getStatus()) + "\n" +
+                            "Creator: " + convertPerson.convert(job.getCreator()) + "\n" +
+                            "Worker: " + convertPerson.convert(job.getWorker()) + "\n");
                 }
             }
+            new Menu().mainmenu();
         } else {
-            System.out.println("No Jobs Found\n");
+            System.out.println("No Jobs Found");
         }
     }
 
-    public String returnLoggedInUser(String email) {
+    public void listMyInProgress() {
+        CompletableFuture.runAsync(() -> {
+            if (!allJobs.isEmpty()) {
+                for (Job job : allJobs) {
+                    if (job.getStatus() == 1 && job.getWorker().equals(loggedInUser)) {
+                        System.out.println("ID: " + job.getId() + "\n" +
+                                "Title: " + job.getTitle() + "\n" +
+                                "Description: " + job.getDescription() + "\n" +
+                                "Location: " + job.getLocation() + "\n" +
+                                "Duration: " + job.getDuration() + "\n" +
+                                "Salary per Hour: " + job.getSalary() + "\n" +
+                                "Status: " + convertStatus.convert(job.getStatus()) + "\n" +
+                                "Creator: " + convertPerson.convert(job.getCreator()) + "\n" +
+                                "Worker: " + convertPerson.convert(job.getWorker()) + "\n");
+                    } else {
+                        System.out.println("No Jobs in Progress.");
+                    }
+                }
+
+                new Menu().mainmenu();
+            } else {
+                System.out.println("No Jobs Found\n");
+            }
+        });
+    }
+
+
+    public void setLoggedInPerson(String email) {
         for (Person person : allPersons) {
+            if (email == null) {
+                this.loggedInUser = null;
+                break;
+            }
             if (person.getEmail().equals(email)) {
-                return person.getId();
+                this.loggedInUser = person;
             }
         }
-        return null;
     }
 
     public boolean isLoginValid(String email, String password) {

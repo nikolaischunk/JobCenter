@@ -6,8 +6,8 @@ abstract public class Job {
     private String id;
     private String title;
     private String description;
-    private int duration; //in hours
     private String location;
+    private int duration; //in hours
     private int status = 0;
     private int salaryPerHour;
     private Person creator = null;
