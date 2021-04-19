@@ -1,5 +1,9 @@
 package ch.chillihero.util;
 
+/**
+ *
+ * Class to Convert a int to a String and return the Value for better understanding
+ * */
 public class convertStatus {
     public static String convert(int status) {
         String statusAsString;

@@ -36,7 +36,7 @@ public class Menu {
                 isLoggedin = true;
                 repeatMenu = true;
 
-                while(repeatMenu) {
+                while (repeatMenu) {
                     mainmenu();
                 }
             } else {
@@ -55,7 +55,7 @@ public class Menu {
         if (!isLoggedin) {
             return;
         }
-
+//Menu to choose what to do next
         System.out.println("What do you want to do?\n" +
                 "1: Create new Job\n" +
                 "2: Show All Jobs\n" +

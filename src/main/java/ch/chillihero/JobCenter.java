@@ -10,13 +10,16 @@ import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
 public class JobCenter {
-
+    //List for all Jobs
     public List<Job> allJobs = new ArrayList<>();
+    //List for all Person
     public List<Person> allPersons = new ArrayList<>();
     JobFactory jobFactory = new JobFactory();
     Scanner scan = new Scanner(System.in);
+    //LoggedIn User to work with Attributes
     private Person loggedInUser = null;
 
+    //Create a Menu for Creating a new Job
     public void createJob() {
         String jobChoice = "";
         boolean repeat = true;
@@ -64,6 +67,7 @@ public class JobCenter {
         int salaryPerHour = scan.nextInt();
         scan.nextLine();
 
+        //Set all Fields
         job.setId(AutoIncrement.generate());
         job.setDescription(description);
         job.setDuration(duration);
@@ -75,6 +79,7 @@ public class JobCenter {
     }
 
     public void acceptJob() {
+        //Method to accept an Open Job
         System.out.println("====== Accept Job ======");
         System.out.println("Whats the ID of the Job you want to accept?");
         String jobID = scan.nextLine();
@@ -89,13 +94,23 @@ public class JobCenter {
     }
 
     public void finshJob() {
+        //Method to finish an accepted Job
         System.out.println("====== Finish Job ======");
         System.out.println("Whats the ID of the Job you want to finish?");
         String jobID = scan.nextLine();
 
         Job choosenJob = returnJobFromId(jobID);
-        choosenJob.setWorker(loggedInUser);
-        choosenJob.setStatus(2);
+        if (choosenJob.getStatus() == 0) {
+            System.out.println("This job is not taken yet");
+            return;
+        }
+        if (choosenJob.getWorker() != loggedInUser) {
+            System.out.println("This is not your Job!");
+            return;
+        } else {
+            choosenJob.setWorker(loggedInUser);
+            choosenJob.setStatus(2);
+        }
     }
 
     public void listALlJobs() {
@@ -147,6 +162,7 @@ public class JobCenter {
     }
 
     private void listJobs(int status) {
+        //generic method to get all Jobs with a specific Status
         if (!allJobs.isEmpty()) {
             for (Job job : allJobs) {
                 if (job.getStatus() == status) {
@@ -181,14 +197,12 @@ public class JobCenter {
                                 "Status: " + convertStatus.convert(job.getStatus()) + "\n" +
                                 "Creator: " + convertPerson.convert(job.getCreator()) + "\n" +
                                 "Worker: " + convertPerson.convert(job.getWorker()) + "\n");
-                    } else {
-                        System.out.println("No Jobs in Progress.");
                     }
                 }
 
                 new Menu().mainmenu();
             } else {
-                System.out.println("No Jobs Found\n");
+                System.out.println("No Jobs in Progress.");
             }
         });
     }
@@ -217,30 +231,36 @@ public class JobCenter {
         return false;
     }
 
-
+    //Generate Dummies to test our System
     public void generateDummyJobs() {
         Job job1 = jobFactory.createJob("babysitting");
         Job job2 = jobFactory.createJob("gardenwork");
         Job job3 = jobFactory.createJob("housework");
+        Person person = new Person();
+        person.setFirstname("Back");
+        person.setLastname("Fisch");
 
         job1.setId("1000");
         job1.setDescription("A great Babysitt Job, searching M/W min. 16y old");
         job1.setDuration(4);
         job1.setLocation("My Adress 19b");
         job1.setSalary(10);
+        job1.setCreator(person);
 
         job2.setId("999");
         job2.setDescription("A great Gardenwork Job, searching M/W min. 12y old");
         job2.setDuration(8);
         job2.setLocation("A nice location in  19b");
         job2.setSalary(33);
-        job2.setStatus(2);
+        job2.setStatus(1);
+        job2.setWorker(person);
 
         job3.setId("998");
         job3.setDescription("A great Housework Job, searching M/W min. 18y old");
         job3.setDuration(2);
         job3.setLocation("Another Adress anywhere 19b");
         job3.setSalary(15);
+        job2.setCreator(person);
 
         allJobs.add(job1);
         allJobs.add(job2);
